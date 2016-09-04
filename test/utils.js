@@ -14,7 +14,7 @@ describe('utils', () => {
   })
 
   it('should get github url', async () => {
-    const name = 'babel'
+    const name = 'chai'
     const url = await getGithubUrl(name)
     expect(url).to.equal('https://github.com/babel/babel/tree/master/packages/babel')
   })

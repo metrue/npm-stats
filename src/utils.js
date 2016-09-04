@@ -64,15 +64,12 @@ export function getGithubUrl(name) {
         reject(error)
       } else {
         const meta = JSON.parse(out)
-        resolve(meta.repository.url || meta.homepage)
         const url = meta.repository && meta.repository.url
         if (url) {
-          if (url.match(/^git@/)) {
-            const formatUrl = url.replace(/^git@/, 'https://').replace(':', '/')
-            resolve(formatUrl)
-          } else {
-            resolve(url)
-          }
+          const formatUrl = url.replace(/^git@/, 'https://')
+          const str = formatUrl.replace(/^git\+https/, 'https')
+          const newStr = str.replace(/^git:/, 'https:')
+          resolve(newStr)
         } else {
           resolve(meta.homepage)
         }

@@ -4,7 +4,9 @@
   "description": "",
   "main": "star_show.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "transpile": "[ -d src ] && ./node_modules/.bin/babel src --out-dir lib || true",
+    "pretest": "npm run transpile",
+    "test": "mocha --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks -t 20000 test"
   },
   "keywords": [],
   "author": "",
@@ -31,13 +33,10 @@
     ]
   },
   "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^3.5.5",
     "cheerio": "^0.22.0",
     "isomorphic-fetch": "^2.2.1",
     "request": "^2.74.0"
-  },
-  "scripts": {
-    "transpile": "[ -d src ] && ./node_modules/.bin/babel src --out-dir lib || true",
-    "pretest": "npm run transpile",
-    "test": "mocha --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks -t 20000 test"
   }
 }
