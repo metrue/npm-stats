@@ -1,10 +1,10 @@
 {
-  "name": "xstars",
-  "version": "0.0.1",
-  "description": "",
+  "name": "npmstars",
+  "version": "0.0.3",
+  "description": "show stars number of your project dependencies",
   "main": "./lib/star_counter.js",
   "bin": {
-    "npm-stars" : "bin/npm-stars.js"
+    "npm-stars": "bin/npm-stars.js"
   },
   "directories": {
     "bin": "./bin",
@@ -24,7 +24,6 @@
     "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",
     "babel-eslint": "^6.1.2",
-    "babel-polyfill": "^6.13.0",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
     "chai": "^3.5.0",
@@ -46,6 +45,7 @@
     "blessed-contrib": "^3.5.5",
     "cheerio": "^0.22.0",
     "isomorphic-fetch": "^2.2.1",
-    "request": "^2.74.0"
+    "request": "^2.74.0",
+    "babel-polyfill": "^6.13.0"
   }
 }
