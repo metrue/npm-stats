@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "star_show.js",
+  "bin": {
+    "npm-stars" : "bin/npm-stars.js"
+  },
   "scripts": {
     "transpile": "[ -d src ] && ./node_modules/.bin/babel src --out-dir lib || true",
     "pretest": "npm run transpile",
-    "test": "mocha --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks -t 20000 test"
+    "test": "mocha --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks -t 20000 test",
+    "prepublish": "npm run transpile"
   },
   "keywords": [],
   "author": "",
