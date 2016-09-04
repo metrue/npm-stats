@@ -4,36 +4,6 @@ import Repo from './src/repo'
 
 const NODE_MODULES_DIR = './node_modules';
 
-async function getStars(username, repo) {
-   // cull --silent 'https://api.github.com/repos/tj/co' -H 'Accept: application/vnd.github.preview' | jq '.watchers_count'
-  const url = `https://api.github.com/repos/${username}/${repo}`;
-  const opts = {
-    method: 'GET',
-    headers: {
-      Accept: 'application/vnd.github.preview',
-    },
-  };
-
-  console.log(url);
-  return new Promise((resolve, reject) => {
-    fetch(url, opts)
-      .then((resp) => {
-        if (resp.status !== 200) {
-          reject(`${resp.status} ${resp.statusText}`);
-        } else {
-          resp.json().then((data) => {
-            const stars = data.stargazers_count;
-            resolve(stars);
-          });
-        }
-      })
-    .catch((e) => {
-      console.log(e);
-    })
-    ;
-  });
-}
-
 async function getRepos() {
   const repos = [];
   return new Promise((resolve, reject) => {
@@ -81,7 +51,8 @@ async function main() {
         stars,
       });
     } catch (e) {
-      console.warn(e);
+      console.log(r.username, r.repo, 'Error');
+      // console.warn(e);
     }
   }
 
