@@ -1,10 +1,15 @@
 {
   "name": "xstars",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "star_show.js",
+  "main": "./lib/star_counter.js",
   "bin": {
     "npm-stars" : "bin/npm-stars.js"
+  },
+  "directories": {
+    "bin": "./bin",
+    "test": "./test",
+    "lib": "./lib"
   },
   "scripts": {
     "transpile": "[ -d src ] && ./node_modules/.bin/babel src --out-dir lib || true",
