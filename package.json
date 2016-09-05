@@ -1,6 +1,6 @@
 {
   "name": "npmstars",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "show stars number of your project dependencies",
   "main": "./lib/star_counter.js",
   "bin": {
@@ -14,8 +14,9 @@
   "scripts": {
     "transpile": "[ -d src ] && ./node_modules/.bin/babel src --out-dir lib || true",
     "pretest": "npm run transpile",
+    "prepublish": "npm run transpile",
     "test": "mocha --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks -t 20000 test",
-    "prepublish": "npm run transpile"
+    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --ui bdd --compilers js:babel-core/register --require babel-polyfill --recursive --reporter spec --check-leaks -t 20000 test"
   },
   "keywords": [],
   "author": "",
@@ -32,7 +33,8 @@
     "eslint-plugin-import": "^1.14.0",
     "eslint-plugin-jsx-a11y": "^2.2.0",
     "eslint-plugin-react": "^6.2.0",
-    "mocha": "^3.0.2"
+    "mocha": "^3.0.2",
+    "istanbul": "^1.0.0-alpha.2"
   },
   "babel": {
     "presets": [
