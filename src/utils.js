@@ -88,8 +88,9 @@ export function getStars(url) {
           const $ = cheerio.load(body)
           const starNode = $('div').find('a.social-count')
           const stars = starNode[1].attribs['aria-label'].split(' ')[0]
+          const forks = starNode[2].attribs['aria-label'].split(' ')[0]
 
-          resolve(stars)
+          resolve({ stars, forks })
         } catch (e) {
           console.log(url, ' cannot get stars ', e)
           resolve(0)

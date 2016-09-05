@@ -1,5 +1,6 @@
 import blessed from 'blessed'
 import contrib from 'blessed-contrib'
+import Table from 'cli-table'
 
 import {
   getPackageJSON,
@@ -17,7 +18,8 @@ class StarCounter {
   async run() {
     await this.prepare()
     await this.count()
-    await this.draw()
+    // await this.draw()
+    await this.show()
   }
 
   async prepare() {
@@ -35,8 +37,8 @@ class StarCounter {
     for (const dep of this.deps) {
       const t = getGithubUrl(dep)
         .then(url => getStars(url))
-        .then(stars => {
-          self.counts[dep] = stars
+        .then(info => {
+          self.counts[dep] = info
         })
         .catch(e => {
           console.warn(e)
@@ -44,6 +46,23 @@ class StarCounter {
       tasks.push(t)
     }
     return Promise.all(tasks)
+  }
+
+  show() {
+    const table = new Table({
+      chars: {
+        mid: '',
+        'left-mid': '',
+        'mid-mid': '',
+        'right-mid': '',
+      },
+    })
+
+    table.push(['repo', 'stars', 'forks'], ['', '', ''])
+    for (const [k, v] of Object.entries(this.counts)) {
+      table.push([k, v.stars, v.forks])
+    }
+    console.log(table.toString())
   }
 
   async draw() {
