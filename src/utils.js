@@ -6,7 +6,7 @@ import request from 'request'
 
 export function getPackageJSON(basedir) {
   if (!basedir) {
-    basedir = __dirname
+    basedir = process.cwd()
   }
 
   const pkgPath = `${basedir}/package.json`
@@ -84,11 +84,16 @@ export function getStars(url) {
       if (error) {
         reject(error)
       } else {
-        const $ = cheerio.load(body)
-        const starNode = $('div').find('a.social-count')
-        const stars = starNode[1].attribs['aria-label'].split(' ')[0]
+        try {
+          const $ = cheerio.load(body)
+          const starNode = $('div').find('a.social-count')
+          const stars = starNode[1].attribs['aria-label'].split(' ')[0]
 
-        resolve(stars)
+          resolve(stars)
+        } catch (e) {
+          console.log(url, ' cannot get stars ', e)
+          resolve(0)
+        }
       }
     })
   })

@@ -1,29 +1,49 @@
 import blessed from 'blessed'
 import contrib from 'blessed-contrib'
 
-import { getPackageJSON, getDependencies, getGithubUrl, getStars } from '../lib/utils'
+import {
+  getPackageJSON,
+  getDependencies,
+  getGithubUrl,
+  getStars,
+} from '../lib/utils'
 
 class StarCounter {
   constructor() {
+    this.deps = []
     this.counts = {}
   }
 
   async run() {
+    await this.prepare()
+    await this.count()
     await this.draw()
   }
 
-  async count() {
+  async prepare() {
+    const pkgJSON = getPackageJSON()
     try {
-      const pkgJSON = await getPackageJSON()
-      const deps = await getDependencies(pkgJSON)
-      for (const dep of deps) {
-        const url = await getGithubUrl(dep)
-        const stars = await getStars(url)
-        this.counts[dep] = stars
-      }
+      this.deps = await getDependencies(pkgJSON)
     } catch (e) {
-      console.log(e)
+      console.warn(e)
     }
+  }
+
+  async count() {
+    const tasks = []
+    const self = this
+    for (const dep of this.deps) {
+      const t = getGithubUrl(dep)
+        .then(url => getStars(url))
+        .then(stars => {
+          self.counts[dep] = stars
+        })
+        .catch(e => {
+          console.warn(e)
+        })
+      tasks.push(t)
+    }
+    return Promise.all(tasks)
   }
 
   async draw() {
@@ -33,8 +53,8 @@ class StarCounter {
 
     const bar = contrib.bar({
       label: 'Stars of Dependencies',
-      barWidth: 4,
-      barSpacing: 6,
+      barWidth: 2,
+      barSpacing: 1,
       xOffset: 0,
       maxHeight: 9,
     })
