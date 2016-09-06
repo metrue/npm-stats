@@ -63,9 +63,9 @@ class StarCounter {
       },
     })
 
-    table.push(['repo', 'stars', 'forks', 'watchings'], ['', '', '', ''])
+    table.push(['repo', 'stars', 'forks', 'watchings', 'opening issues'], ['', '', '', '', ''])
     for (const [k, v] of Object.entries(this.counts)) {
-      table.push([k, v.stars, v.forks, v.watchings])
+      table.push([k, v.stars, v.forks, v.watchings, v.openingIssues])
     }
     console.log(table.toString())
   }

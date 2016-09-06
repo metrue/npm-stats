@@ -117,6 +117,7 @@ describe('utils', () => {
       watchings: 19,
       stars: 405,
       forks: 85,
+      openingIssues: 57,
     })
   })
 })

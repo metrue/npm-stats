@@ -110,10 +110,18 @@ export function getGithubMatrix(url) {
           const stars = starNode[1].attribs['aria-label'].split(' ')[0]
           const forks = starNode[2].attribs['aria-label'].split(' ')[0]
 
+          const issues = $('nav').find('span.counter')
+          const openingIssues = (issues
+            && issues[0]
+            && issues[0].children
+            && issues[0].children[0]
+            && issues[0].children[0].data) || 0
+
           resolve({
             watchings: parseInt(watchings, 10),
             stars: parseInt(stars, 10),
             forks: parseInt(forks, 10),
+            openingIssues: parseInt(openingIssues, 10),
           })
         } catch (e) {
           reject(e)
