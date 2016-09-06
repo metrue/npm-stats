@@ -1,6 +1,6 @@
 {
   "name": "npmstars",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "show stars number of your project dependencies",
   "main": "./lib/star_counter.js",
   "bin": {

@@ -1,5 +1,12 @@
 import { expect } from 'chai'
-import { locateRoot, readDeps, getGithubUrl, readNpmMeta, getGithubMatrix } from '../lib/utils'
+import {
+  locateRoot,
+  readDeps,
+  getGithubUrl,
+  readNpmMeta,
+  getGithubMatrix,
+  formatGitHubUrl,
+} from '../lib/utils'
 
 function getDeps(pkg) {
   const deps = []
@@ -77,6 +84,26 @@ describe('utils', () => {
     expect(meta.name).equal(name)
   })
 
+  describe('formatGitHubUrl', () => {
+    it('domain:username', () => {
+      const url = 'https://github.com:Carrooi/Node-RecursiveMerge.git'
+      const formated = formatGitHubUrl(url)
+      expect(formated).to.equal('https://github.com/Carrooi/Node-RecursiveMerge.git')
+    })
+
+    it('git@github', () => {
+      const url = 'git@github.com:metrue/npm-stars.git'
+      const formated = formatGitHubUrl(url)
+      expect(formated).to.equal('https://github.com/metrue/npm-stars.git')
+    })
+
+    it('https', () => {
+      const url = 'https://github.com/babel/babel/tree/master/packages/babel-preset-stage-0'
+      const formated = formatGitHubUrl(url)
+      expect(formated).to.equal('https://github.com/babel/babel/tree/master/packages/babel-preset-stage-0')
+    })
+  })
+
   it('should get github url', async () => {
     // eslint-disable-next-line
     const meta = require('./cheerio_meta.json')
@@ -88,7 +115,7 @@ describe('utils', () => {
     const metrix = await getGithubMatrix('https://github.com/benmosher/eslint-plugin-import')
     expect(metrix).to.eql({
       watchings: 19,
-      stars: 404,
+      stars: 405,
       forks: 85,
     })
   })

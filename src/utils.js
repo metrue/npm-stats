@@ -68,18 +68,30 @@ export function readNpmMeta(name) {
   })
 }
 
-export function getGithubUrl(npmMeta) {
-  const meta = JSON.parse(npmMeta)
-  const url = meta.repository && meta.repository.url
-  if (url) {
-    const formatUrl = url.replace(/^git@/, 'https://')
-    const str = formatUrl.replace(/^git\+https/, 'https')
-    const newStr = str.replace(/^git:/, 'https:')
-    return newStr
+export function formatGitHubUrl(githubUrl) {
+  if (githubUrl.match('github.com')) {
+    const cuts = githubUrl.split(':')
+    if (cuts[0] === 'git@github.com') {
+      cuts[0] = 'https://github.com'
+    } else if (cuts[0] === 'git+https') {
+      cuts[0] = 'https:/'
+    } else if (cuts[0] === 'git') {
+      cuts[0] = 'https:/'
+    } else {
+      cuts[0] += ':/'
+    }
+
+    return cuts.join('/').replace('////', '//')
   }
 
-  if (meta.homepage) {
-    return meta.homepage
+  throw new Error('not a github url')
+}
+
+export function getGithubUrl(npmMeta) {
+  const meta = JSON.parse(npmMeta)
+  const url = (meta.repository && meta.repository.url) || meta.homepage
+  if (url) {
+    return formatGitHubUrl(url)
   }
 
   throw new Error(`cannot found url or homepage of ${meta.name}`)
