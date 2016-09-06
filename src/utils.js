@@ -4,26 +4,25 @@ import { spawn } from 'child_process'
 import cheerio from 'cheerio'
 import request from 'request'
 
-export function getPackageJSON(basedir) {
-  if (!basedir) {
-    basedir = process.cwd()
-  }
-
-  const pkgPath = `${basedir}/package.json`
+export function locateRoot(basedir) {
   try {
-    const pkgStat = fs.statSync(pkgPath)
-    if (pkgStat.isFile()) {
-      return pkgPath
+    if (!basedir) {
+      basedir = process.cwd()
+    }
+    const pkgPath = `${basedir}/package.json`
+    fs.statSync(pkgPath)
+    return pkgPath
+  } catch (e) {
+    if (basedir === '/') {
+      throw new Error('not a Node project')
     }
 
-    return null
-  } catch (e) {
     const base = path.dirname(basedir)
-    return getPackageJSON(base)
+    return locateRoot(base)
   }
 }
 
-export function getDependencies(pkgJSON) {
+export function readDeps(pkgJSON) {
   return new Promise((resolve, reject) => {
     fs.readFile(pkgJSON, (err, data) => {
       if (err) {
@@ -31,11 +30,11 @@ export function getDependencies(pkgJSON) {
       } else {
         const meta = JSON.parse(data.toString())
         const deps = []
-        for (const [name, version] of Object.entries(meta.devDependencies)) {
+        for (const [name] of Object.entries(meta.devDependencies)) {
           deps.push(name)
         }
 
-        for (const [name, version] of Object.entries(meta.dependencies)) {
+        for (const [name] of Object.entries(meta.dependencies)) {
           deps.push(name)
         }
 
@@ -45,7 +44,7 @@ export function getDependencies(pkgJSON) {
   })
 }
 
-export function getGithubUrl(name) {
+export function readNpmMeta(name) {
   return new Promise((resolve, reject) => {
     const p = spawn('npm', ['view', '--json', name])
 
@@ -63,22 +62,30 @@ export function getGithubUrl(name) {
       if (error) {
         reject(error)
       } else {
-        const meta = JSON.parse(out)
-        const url = meta.repository && meta.repository.url
-        if (url) {
-          const formatUrl = url.replace(/^git@/, 'https://')
-          const str = formatUrl.replace(/^git\+https/, 'https')
-          const newStr = str.replace(/^git:/, 'https:')
-          resolve(newStr)
-        } else {
-          resolve(meta.homepage)
-        }
+        resolve(out)
       }
     })
   })
 }
 
-export function getStars(url) {
+export function getGithubUrl(npmMeta) {
+  const meta = JSON.parse(npmMeta)
+  const url = meta.repository && meta.repository.url
+  if (url) {
+    const formatUrl = url.replace(/^git@/, 'https://')
+    const str = formatUrl.replace(/^git\+https/, 'https')
+    const newStr = str.replace(/^git:/, 'https:')
+    return newStr
+  }
+
+  if (meta.homepage) {
+    return meta.homepage
+  }
+
+  throw new Error(`cannot found url or homepage of ${meta.name}`)
+}
+
+export function getGithubMatrix(url) {
   return new Promise((resolve, reject) => {
     request(url, (error, response, body) => {
       if (error) {
@@ -87,13 +94,17 @@ export function getStars(url) {
         try {
           const $ = cheerio.load(body)
           const starNode = $('div').find('a.social-count')
+          const watchings = starNode[0].attribs['aria-label'].split(' ')[0]
           const stars = starNode[1].attribs['aria-label'].split(' ')[0]
           const forks = starNode[2].attribs['aria-label'].split(' ')[0]
 
-          resolve({ stars, forks })
+          resolve({
+            watchings: parseInt(watchings, 10),
+            stars: parseInt(stars, 10),
+            forks: parseInt(forks, 10),
+          })
         } catch (e) {
-          console.log(url, ' cannot get stars ', e)
-          resolve(0)
+          reject(e)
         }
       }
     })
