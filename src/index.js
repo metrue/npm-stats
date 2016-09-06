@@ -1,4 +1,6 @@
 import Table from 'cli-table'
+import ProgressBar from './progress_bar'
+
 import {
   locateRoot,
   readDeps,
@@ -29,6 +31,7 @@ export default class {
     const pkg = locateRoot()
     try {
       this.deps = await readDeps(pkg)
+      this.pace = new ProgressBar(this.deps.length + 1)
     } catch (e) {
       throw new Error(`cannot get dependencies from ${pkg}`)
     }
@@ -37,15 +40,20 @@ export default class {
   async count() {
     const tasks = []
     const self = this
+
+    this.pace.step()
+
     for (const dep of this.deps) {
       const t = readNpmMeta(dep)
         .then(getGithubUrl)
         .then(getGithubMatrix)
         .then(info => {
           self.counts[dep] = info
+          self.pace.step()
         })
         .catch(() => {
           self.skips.push(dep)
+          self.pace.step()
         })
       tasks.push(t)
     }
