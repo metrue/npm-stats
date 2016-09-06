@@ -114,8 +114,8 @@ describe('utils', () => {
   it('should get matrix of rep', async () => {
     const metrix = await getGithubMatrix('https://github.com/benmosher/eslint-plugin-import')
     expect(metrix).to.eql({
-      watchings: 19,
-      stars: 405,
+      watchings: 18,
+      stars: 406,
       forks: 85,
       openingIssues: 57,
     })

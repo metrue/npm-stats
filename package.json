@@ -1,10 +1,10 @@
 {
-  "name": "npmstars",
-  "version": "0.0.9",
+  "name": "npm-deps-stats",
+  "version": "1.0.0",
   "description": "show stars number of your project dependencies",
-  "main": "./lib/star_counter.js",
+  "main": "",
   "bin": {
-    "npm-stars": "bin/npm-stars.js"
+    "npm-stats": "bin/cli.js"
   },
   "directories": {
     "bin": "./bin",
@@ -43,7 +43,6 @@
     "cheerio": "^0.22.0",
     "cli-table": "^0.3.1",
     "isomorphic-fetch": "^2.2.1",
-    "pace": "0.0.4",
     "request": "^2.74.0"
   },
   "babel": {

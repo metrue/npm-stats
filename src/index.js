@@ -71,8 +71,12 @@ export default class {
     })
 
     table.push(['repo', 'stars', 'forks', 'watchings', 'opening issues'], ['', '', '', '', ''])
-    for (const [k, v] of Object.entries(this.counts)) {
-      table.push([k, v.stars, v.forks, v.watchings, v.openingIssues])
+    const list = Object.entries(this.counts)
+    const sorted = list.sort((a, b) => {
+      return b[1].stars - a[1].stars
+    })
+    for (const d of sorted) {
+      table.push([d[0], d[1].stars, d[1].forks, d[1].watchings, d[1].openingIssues])
     }
     console.log(table.toString())
   }
