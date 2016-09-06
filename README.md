@@ -1,4 +1,4 @@
-## npm-stars
+## npm-stats
 
 show GitHub matrix of your Node project dependencies
 
@@ -6,13 +6,13 @@ show GitHub matrix of your Node project dependencies
 
 install
 ```
-npm install -g npmstars
+npm install -g npm-deps-stats
 ```
 
 run
 ```
 $ cd <your project>
-$ npm-stars
+$ npm-stats
 ```
 
 ## LICENSE
