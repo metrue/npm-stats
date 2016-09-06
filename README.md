@@ -1,4 +1,4 @@
-## npm-stats [![CircleCI](https://circleci.com/gh/metrue/npm-stats.svg?style=svg)](https://circleci.com/gh/metrue/npm-stats)
+## npm-stats [![CircleCI](https://circleci.com/gh/metrue/npm-stats.svg?style=svg)](https://circleci.com/gh/metrue/npm-stats) [![codecov](https://codecov.io/gh/metrue/npm-stats/branch/master/graph/badge.svg)](https://codecov.io/gh/metrue/npm-stats)
 
 show GitHub matrix of your Node project dependencies
 
