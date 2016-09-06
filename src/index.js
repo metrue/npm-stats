@@ -1,14 +1,13 @@
 import Table from 'cli-table'
-
 import {
   locateRoot,
   readDeps,
   readNpmMeta,
   getGithubUrl,
   getGithubMatrix,
-} from '../lib/utils'
+} from './utils'
 
-class StarCounter {
+export default class {
   constructor() {
     this.deps = []
     this.counts = {}
@@ -70,6 +69,3 @@ class StarCounter {
     console.log(table.toString())
   }
 }
-
-const starCounter = new StarCounter()
-starCounter.run()

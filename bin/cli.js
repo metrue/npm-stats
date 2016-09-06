@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
 require('babel-polyfill')
-require('../lib/star_counter')
+require('../lib/cli')
