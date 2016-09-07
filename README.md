@@ -1,6 +1,6 @@
 # npm-stats
 
-<a href="https://nodei.co/npm/npm-deps-stats/"><img src="https://nodei.co/npm/npm-deps-stats.png?downloads=true&downloadRank=true&stars=true"></a>
+<a href="https://nodei.co/npm/npm-deps-stats/"><img src="https://nodei.co/npm/npm-deps-stats.png?mini=true"></a>
 [![CircleCI](https://circleci.com/gh/metrue/npm-stats.svg?style=svg)](https://circleci.com/gh/metrue/npm-stats) [![codecov](https://codecov.io/gh/metrue/npm-stats/branch/master/graph/badge.svg)](https://codecov.io/gh/metrue/npm-stats)
 
 show GitHub matrix of your Node project dependencies
