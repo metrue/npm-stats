@@ -1,5 +1,5 @@
 import Table from 'cli-table'
-import ProgressBar from './progress_bar'
+import Dooing from 'dooing'
 
 import {
   locateRoot,
@@ -21,7 +21,10 @@ export default class {
     try {
       await this.prepare()
       if (this.deps.length) {
+        this.dobar = new Dooing({ mark: '*', total: this.deps.length })
+
         await this.count()
+        console.log('\n')
         await this.report()
       } else {
         console.log('no any dependencies in your project')
@@ -35,7 +38,6 @@ export default class {
     const pkg = locateRoot()
     try {
       this.deps = await readDeps(pkg)
-      this.pace = new ProgressBar(this.deps.length + 1)
     } catch (e) {
       throw new Error(`cannot get dependencies from ${pkg}`)
     }
@@ -45,7 +47,7 @@ export default class {
     const tasks = []
     const self = this
 
-    this.pace.step()
+    this.dobar.step()
 
     for (const dep of this.deps) {
       const t = readNpmMeta(dep)
@@ -53,11 +55,11 @@ export default class {
         .then(getGithubMatrix)
         .then(info => {
           self.counts[dep] = info
-          self.pace.step()
+          self.dobar.step()
         })
         .catch(() => {
           self.skips.push(dep)
-          self.pace.step()
+          self.dobar.step()
         })
       tasks.push(t)
     }
