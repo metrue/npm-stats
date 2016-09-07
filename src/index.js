@@ -20,8 +20,12 @@ export default class {
   async run() {
     try {
       await this.prepare()
-      await this.count()
-      await this.report()
+      if (this.deps.length) {
+        await this.count()
+        await this.report()
+      } else {
+        console.log('no any dependencies in your project')
+      }
     } catch (e) {
       console.log(e)
     }

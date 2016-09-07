@@ -28,16 +28,12 @@ export function readDeps(pkgJSON) {
       if (err) {
         reject(err)
       } else {
-        const meta = JSON.parse(data.toString())
         const deps = []
-        for (const [name] of Object.entries(meta.devDependencies)) {
+        const meta = JSON.parse(data.toString())
+        const rawDeps = Object.assign({}, meta.devDependencies, meta.dependencies)
+        for (const [name] of Object.entries(rawDeps)) {
           deps.push(name)
         }
-
-        for (const [name] of Object.entries(meta.dependencies)) {
-          deps.push(name)
-        }
-
         resolve(deps)
       }
     })
