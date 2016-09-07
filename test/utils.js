@@ -1,4 +1,6 @@
 import { expect } from 'chai'
+import path from 'path'
+
 import {
   locateRoot,
   readDeps,
@@ -48,7 +50,7 @@ function arrayEql(arr1, arr2) {
 describe('utils', () => {
   it('should get package.json', () => {
     const pkgJSON = locateRoot()
-    expect(pkgJSON).to.equal('/Users/mhuang/Codes/npm-stars/package.json')
+    expect(pkgJSON).to.equal(path.resolve(__dirname, '../package.json'))
   })
 
   it('should throw error', () => {
@@ -62,7 +64,7 @@ describe('utils', () => {
   })
 
   it('should get dependencies', async () => {
-    const pkgJSONFile = '/Users/mhuang/Codes/npm-stars/package.json'
+    const pkgJSONFile = `${__dirname}/../package.json`
     // eslint-disable-next-line
     const pkg = require(pkgJSONFile)
     const deps = getDeps(pkg)
@@ -113,11 +115,9 @@ describe('utils', () => {
 
   it('should get matrix of rep', async () => {
     const metrix = await getGithubMatrix('https://github.com/benmosher/eslint-plugin-import')
-    expect(metrix).to.eql({
-      watchings: 18,
-      stars: 406,
-      forks: 85,
-      openingIssues: 57,
-    })
+    expect(metrix.watchings).to.be.at.least(0)
+    expect(metrix.stars).to.be.at.least(0)
+    expect(metrix.forks).to.be.at.least(0)
+    expect(metrix.openingIssues).to.be.at.least(0)
   })
 })
