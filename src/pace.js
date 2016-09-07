@@ -212,7 +212,7 @@ Pace.prototype.outputTimes = function outputTimes() {
 Pace.prototype.finished = function finished() {
   this.charm.write("\n\n");
   // this.charm.write('Finished!');
-  this.charm.write("\n\n");
+  this.charm.write("\n");
 };
 
 /**
