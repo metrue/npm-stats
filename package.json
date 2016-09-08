@@ -1,6 +1,6 @@
 {
   "name": "npm-deps-stats",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "show stars number of your project dependencies",
   "main": "",
   "bin": {
@@ -37,15 +37,10 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.13.0",
-    "blessed": "^0.1.81",
-    "blessed-contrib": "^3.5.5",
     "cell.js": "^0.0.2",
     "chai": "^3.5.0",
     "charm": "~0.1.0",
     "cheerio": "^0.22.0",
-    "cli-table": "^0.3.1",
-    "dooing": "^0.0.3",
-    "isomorphic-fetch": "^2.2.1",
     "request": "^2.74.0"
   },
   "babel": {
