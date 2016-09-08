@@ -1,5 +1,4 @@
-import Table from 'cli-table'
-import Dooing from 'dooing'
+import Cell from 'cell.js'
 
 import {
   locateRoot,
@@ -21,11 +20,7 @@ export default class {
     try {
       await this.prepare()
       if (this.deps.length) {
-        this.dobar = new Dooing({ mark: '*', total: this.deps.length })
-
         await this.count()
-        console.log('\n')
-        await this.report()
       } else {
         console.log('no any dependencies in your project')
       }
@@ -47,43 +42,55 @@ export default class {
     const tasks = []
     const self = this
 
-    this.dobar.step()
+    if (this.deps.length > 0) {
+      const headers = ['repo', 'stars', 'forks', 'watchings', 'issues']
+      for (const h of headers) {
+        const config = this._cellConfig(h, h)
+        const cell = new Cell(config)
+        cell.write()
+      }
+      console.log('\n')
+    }
 
     for (const dep of this.deps) {
       const t = readNpmMeta(dep)
         .then(getGithubUrl)
         .then(getGithubMatrix)
         .then(info => {
-          self.counts[dep] = info
-          self.dobar.step()
+          info.repo = dep
+          self.output(info)
         })
         .catch(() => {
           self.skips.push(dep)
-          self.dobar.step()
         })
       tasks.push(t)
     }
     return Promise.all(tasks)
   }
 
-  report() {
-    const table = new Table({
-      chars: {
-        mid: '',
-        'left-mid': '',
-        'mid-mid': '',
-        'right-mid': '',
-      },
-    })
-
-    table.push(['repo', 'stars', 'forks', 'watchings', 'opening issues'], ['', '', '', '', ''])
-    const list = Object.entries(this.counts)
-    const sorted = list.sort((a, b) => {
-      return b[1].stars - a[1].stars
-    })
-    for (const d of sorted) {
-      table.push([d[0], d[1].stars, d[1].forks, d[1].watchings, d[1].openingIssues])
+  output(info) {
+    const keys = ['repo', 'stars', 'forks', 'watchings', 'issues']
+    for (const k of keys) {
+      const config = this._cellConfig(k, info[k])
+      const cell = new Cell(config)
+      cell.write()
     }
-    console.log(table.toString())
+    console.log('')
+  }
+
+  _cellConfig(name, value) {
+    let align = 'left'
+    let length = 10
+    if (name === 'repo') {
+      align = 'right'
+      length = 25
+    }
+    return {
+      length,
+      content: String(value),
+      foregroundColor: 245,
+      backgroundColor: 'black',
+      align,
+    }
   }
 }

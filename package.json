@@ -39,6 +39,7 @@
     "babel-polyfill": "^6.13.0",
     "blessed": "^0.1.81",
     "blessed-contrib": "^3.5.5",
+    "cell.js": "^0.0.2",
     "chai": "^3.5.0",
     "charm": "~0.1.0",
     "cheerio": "^0.22.0",

@@ -118,6 +118,6 @@ describe('utils', () => {
     expect(metrix.watchings).to.be.at.least(0)
     expect(metrix.stars).to.be.at.least(0)
     expect(metrix.forks).to.be.at.least(0)
-    expect(metrix.openingIssues).to.be.at.least(0)
+    expect(metrix.issues).to.be.at.least(0)
   })
 })

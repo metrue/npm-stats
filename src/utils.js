@@ -117,7 +117,7 @@ export function getGithubMatrix(url) {
             watchings: parseInt(watchings, 10),
             stars: parseInt(stars, 10),
             forks: parseInt(forks, 10),
-            openingIssues: parseInt(openingIssues, 10),
+            issues: parseInt(openingIssues, 10),
           })
         } catch (e) {
           reject(e)
