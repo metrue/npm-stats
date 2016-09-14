@@ -6,6 +6,7 @@ import {
   readNpmMeta,
   getGithubUrl,
   getGithubMatrix,
+  getDepoName,
 } from './utils'
 
 export default class {
@@ -52,13 +53,29 @@ export default class {
       console.log('\n')
     }
 
+    const depsMap = {}
+    function updateMap(info, dep) {
+      let depName
+      try {
+        depName = getDepoName(info.url)
+      } catch (e) {
+        depName = dep
+      }
+
+      info.repo = depName
+      return info
+    }
+
     for (const dep of this.deps) {
       const t = readNpmMeta(dep)
         .then(getGithubUrl)
         .then(getGithubMatrix)
         .then(info => {
-          info.repo = dep
-          self.output(info)
+          const newInfo = updateMap(info)
+          if (!depsMap[newInfo.repo]) {
+            self.output(newInfo)
+            depsMap[newInfo.repo] = true
+          }
         })
         .catch(() => {
           self.skips.push(dep)

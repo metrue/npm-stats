@@ -83,6 +83,15 @@ export function formatGitHubUrl(githubUrl) {
   throw new Error('not a github url')
 }
 
+export function getDepoName(rawGitHubUrl) {
+  const cuts = rawGitHubUrl.split('/')
+  if (!cuts[3]) {
+    throw new Error(`cannot get the repo name of ${rawGitHubUrl}`)
+  }
+
+  return cuts[3]
+}
+
 export function getGithubUrl(npmMeta) {
   const meta = JSON.parse(npmMeta)
   const url = (meta.repository && meta.repository.url) || meta.homepage
@@ -114,6 +123,7 @@ export function getGithubMatrix(url) {
             && issues[0].children[0].data) || 0
 
           resolve({
+            url,
             watchings: parseInt(watchings, 10),
             stars: parseInt(stars, 10),
             forks: parseInt(forks, 10),
