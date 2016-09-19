@@ -18,7 +18,7 @@ $ cd <your project>
 $ npm-stats
 ```
 
-<img src="https://raw.githubusercontent.com/metrue/npm-stats/master/screen_shot.png" width="500"></img>
+<img src="https://raw.githubusercontent.com/metrue/npm-stats/master/screen_shot.png" width="1000"></img>
 
 ## LICENSE
 
