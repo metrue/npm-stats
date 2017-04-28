@@ -23,14 +23,14 @@
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",
-    "babel-eslint": "^6.1.2",
+    "babel-eslint": "^7.2.3",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
     "codecov.io": "^0.1.6",
     "eslint": "^3.4.0",
-    "eslint-config-airbnb": "^10.0.1",
-    "eslint-plugin-import": "^1.14.0",
-    "eslint-plugin-jsx-a11y": "^2.2.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.2.0",
     "istanbul": "^1.0.0-alpha.2",
     "mocha": "^3.0.2"
@@ -39,7 +39,7 @@
     "babel-polyfill": "^6.13.0",
     "cell.js": "^0.0.2",
     "chai": "^3.5.0",
-    "charm": "~0.1.0",
+    "charm": "~1.0.2",
     "cheerio": "^0.22.0",
     "request": "^2.74.0"
   },
