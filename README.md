@@ -1,5 +1,7 @@
 # npm-stats
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/metrue/npm-stats.svg)](https://greenkeeper.io/)
+
 <a href="https://nodei.co/npm/npm-deps-stats/"><img src="https://nodei.co/npm/npm-deps-stats.png?mini=true"></a>
 [![CircleCI](https://circleci.com/gh/metrue/npm-stats.svg?style=svg)](https://circleci.com/gh/metrue/npm-stats) [![codecov](https://codecov.io/gh/metrue/npm-stats/branch/master/graph/badge.svg)](https://codecov.io/gh/metrue/npm-stats)
 
